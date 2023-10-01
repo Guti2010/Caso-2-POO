@@ -10,7 +10,7 @@ public class Autobus {
 
     // Constructor
     public Autobus() {
-        // Constructor vacío
+       
     }
 
     // Método para definir la placa del  vehículo
@@ -50,8 +50,7 @@ public class Autobus {
 
     // Método para registrar un nuevo viaje
     public void realizarViaje(Viaje viaje) {
-        // Aquí puedes implementar la lógica para registrar el viaje, por ejemplo,
-        // actualizar el último viaje realizado por el vehículo.
+        
         this.ultimoViaje = viaje;
     }
 }

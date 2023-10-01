@@ -1,8 +1,9 @@
 package Route;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.List; 
 import Trip.*;
-import Horario.Horario;
+
 
 public class Ruta {
     private int idRuta;
@@ -12,12 +13,17 @@ public class Ruta {
 
     // Constructor
     public Ruta() {
+    	busStops = new ArrayList<>();
+        viajes = new ArrayList<>();
       
     }
-    public void crearBusStop(BusStop pParada) {
+    public void agregarBusStop(BusStop pParada) {
     	busStops.add(pParada);
     }
     
+    public void crearViajes(Viaje pViaje) {
+    	viajes.add(pViaje);
+    }
     public void setIDruta(int pID) {
     	this.idRuta = pID;
     }
@@ -26,10 +32,6 @@ public class Ruta {
     	this.nombre = pNameRuta;
     }
 
-    // Método para establecer el horario de los autobuses en la ruta
-    public void setBusHorario(Horario horario) {
-        // Implementa la lógica para establecer el horario de los autobuses en la ruta.
-    }
     public int getIDruta() {
     	return idRuta;
     }
@@ -47,5 +49,5 @@ public class Ruta {
         return viajes;
     }
 
-    // Otros métodos y getters y setters según sea necesario
+    
 }

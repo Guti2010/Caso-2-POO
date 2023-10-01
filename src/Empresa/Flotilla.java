@@ -1,7 +1,8 @@
 package Empresa;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
+import java.util.Date;
 import Autobus.*;
 import Trip.*;
 import Route.*;
@@ -10,7 +11,7 @@ public class Flotilla {
     private List<Autobus> autobuses;
     private List<Ruta> rutas;
     private List<Viaje> viajes;
-    private List<BusReport> busReports;
+    
     private List<BusStop> busStops;
     private List<Horario> horarios;
 
@@ -19,7 +20,6 @@ public class Flotilla {
         autobuses = new ArrayList<>();
         rutas = new ArrayList<>();
         viajes = new ArrayList<>();
-        busReports = new ArrayList<>();
         busStops = new ArrayList<>();
         horarios = new ArrayList<>();
     }
@@ -39,8 +39,8 @@ public class Flotilla {
     // Método para agregar un nuevo autobús a la flotilla
     public void agregarBus(String placa, String nombreChofer, int cantMax) {
         Autobus autobus = new Autobus();
-        autobus.definirPlaca(placa);
-        autobus.definirConductor(nombreChofer);
+        autobus.setPlaca(placa);
+        autobus.setConductor(nombreChofer);
         autobus.setCapacidadMaxima(cantMax);
         autobuses.add(autobus);
     }
@@ -48,6 +48,10 @@ public class Flotilla {
     // Método para agregar una nueva ruta a la flotilla
     public void agregarRuta(String nombre, List<BusStop> busStops) {
         Ruta ruta = new Ruta();
+        ruta.setNombre(nombre);
+        for (BusStop parada: busStops) {
+        	ruta.agregarBusStop(parada);
+        }
         rutas.add(ruta);
     }
 
@@ -58,7 +62,7 @@ public class Flotilla {
     }
 
     // Método para actualizar la ubicación de un autobús en un viaje
-    public void actualizarUbicacionAutobus(Viaje viaje, BusStop ubicacion) {
+    public void actualizarUbicacionAutobus(Viaje viaje, BusStop.getUbicacion()) {
         Autobus autobus = viaje.getAutobus();
         autobus.modificarUbicacionBus(ubicacion);
     }
@@ -71,8 +75,11 @@ public class Flotilla {
     }
 
     // Método para crear BusStops y Horarios
-    public void crearBusStopsYHorario(BusStop busStop, Horario horario) {
+    public void crearBusStopsYHorario(String pUbicacion, Date hora) {
+    	BusStop busStop = new BusStop();
+    	busStop.setUbicacion(pUbicacion);
+    	busStop.setHora(hora);
         busStops.add(busStop);
-        horarios.add(horario);
+        
     }
 }
