@@ -1,49 +1,81 @@
 package Trip;
 
-import java.util.Date; 
-import Autobus.*;
+import java.util.ArrayList;   
+import java.util.List; 
+import java.sql.Time;  
+import Bus.*;
 import Route.*;
+import Tiempo.Horario;
 
 public class Viaje {
     private Ruta ruta;
-    private String autobus;
-    private Date horaInicio;
+    private Autobus autobus;
+    private Time horaInicio;
     private int cantPasajeros;
     private BusReport busReport;
     private BusStop ubicacionBus;
+    private List<BusStop> busStops;
+    private boolean EstadoBus;
+    private Horario Horario;
 
     // Constructor
-    public Viaje() {
-        // Constructor vacío
+    public Viaje() { 
+    	busStops = new ArrayList<>();
+    	Horario = new Horario();
     }
-
+    
+ // Métodos para establecer atributos
+    public void setEstadoBus(boolean Estado) {
+        this.EstadoBus = Estado;
+    }
+    
     // Métodos para establecer atributos
-    public void establecerRuta(Ruta ruta) {
+    public void setRuta(Ruta ruta) {
         this.ruta = ruta;
+        this.busStops = ruta.getBusStops();
     }
+    
 
-    public void establecerAutobus(String autobus) {
+    public void setAutobus(Autobus autobus) {
         this.autobus = autobus;
     }
 
-    public void establecerHorario(Date horaInicio) {
-        this.horaInicio = horaInicio;
+    public void setHorario(Time pHoraInicio, int pTiempoMin, int pTiempoMax) {
+        this.horaInicio = pHoraInicio;
+        Horario.establecerHorario(busStops, pHoraInicio, pTiempoMin, pTiempoMax);
+        busStops = Horario.getHorario();
+        
+    }
+    
+    public void setCantPasajeros(int pasajeros) {
+    	this.cantPasajeros=pasajeros;
     }
 
-    public void modificarHorarioSegunPresa(int cantPresa) {
-        // Implementa la lógica para ajustar el horario según la presa de tráfico.
+    public void modificarHorarioSegunPresa(CantPresa cantPresa,BusStop pParada) {
+    	Horario.TiemposPresa(busStops, cantPresa, pParada);
+    	busStops = Horario.getHorario();
     }
 
-    public void modificarHorarioSegunDaño(String daño) {
-        // Implementa la lógica para ajustar el horario según el daño.
+    public void modificarHorarioSegunDaño(BusReport pAveria,BusStop pParada) {
+    	Gravedad pTipo = pAveria.getTipoAveria();
+    	Horario.tiemposAveria(busStops, pTipo, pParada);
+    	busStops = Horario.getHorario();
     }
 
-    public void averiarBus(BusReport busReport) {
-        this.busReport = busReport;
+    public void averiarBus(BusReport pBusReport) {
+    	EstadoBus = false; //Bus dañado
+        this.busReport = pBusReport;
+        autobus.agregarBusReport(pBusReport);
+        autobus.setDisponibilidad(EstadoBus);
     }
 
     public void repararBus(boolean estado) {
-        // Implementa la lógica para reparar o desaveriar el autobús.
+    	EstadoBus = true; //Bus reparado
+    	autobus.setDisponibilidad(EstadoBus);
+    	//Cambiar el estado del ultimo BusReport a true que sería que ya fue reparado
+    	autobus.getBusReports().get(-1).setEstado(estado);
+    	
+    
     }
 
     public void modificarUbicacionBus(BusStop ubicacionBus) {
@@ -51,7 +83,10 @@ public class Viaje {
     }
 
     public void aumentarPasajeros(int cantPersonas) {
-        this.cantPasajeros += cantPersonas;
+    	if (autobus.getCapacidadMaxima()>cantPasajeros) {
+    		this.cantPasajeros += cantPersonas;
+    	}
+    	
     }
 
     // Métodos para obtener atributos
@@ -59,7 +94,7 @@ public class Viaje {
         return ruta;
     }
 
-    public String getAutobus() {
+    public Autobus getAutobus() {
         return autobus;
     }
 
@@ -71,11 +106,19 @@ public class Viaje {
         return cantPasajeros;
     }
 
-    public BusStop getUbicacionBus() {
-        return ubicacionBus;
+    public List<BusStop> getBusStops() {
+        return busStops;
     }
 
-    public Date getHoraInicio() {
+    public Time getHoraInicio() {
         return horaInicio;
+    }
+    
+    public BusStop getUbicacionBus() {
+    	return ubicacionBus;
+    }
+    
+    public boolean getEstadoBus() {
+    	return EstadoBus;
     }
 }

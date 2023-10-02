@@ -1,6 +1,6 @@
 package Route;
 
-import java.util.ArrayList;
+import java.util.ArrayList;  
 import java.util.List; 
 import Trip.*;
 
@@ -17,11 +17,11 @@ public class Ruta {
         viajes = new ArrayList<>();
       
     }
-    public void agregarBusStop(BusStop pParada) {
-    	busStops.add(pParada);
+    public void setBusStop(List<BusStop> pParadas) {
+    	this.busStops=pParadas;
     }
     
-    public void crearViajes(Viaje pViaje) {
+    public void agregarViajes(Viaje pViaje) {
     	viajes.add(pViaje);
     }
     public void setIDruta(int pID) {
