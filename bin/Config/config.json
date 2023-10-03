@@ -1,0 +1,71 @@
+{
+    "tiempoSimulacionHora": 20000, 
+    "minHora" : 6,
+    "maxHora" : 18,
+    "cantPresa" : 2,
+    "minPersonasEnParada" : 0, 
+    "maxPersonasEnParada" : 10, 
+    "capacidad Buses": 60,
+    "probabilidad Averia Leve": 3.5,
+    "probabilidad Averia Grave": 0.7,
+    "averias": {
+        "leves": [
+          "Pintura agrietada",
+          "Faros agrietados",
+          "Retrovisor suelto",
+          "Golpe en la puerta lateral",
+          "Rayones en las ventanas",
+          "Asiento roto",
+          "Parabrisas rayado",
+          "Luz interior defectuosa"
+        ],
+        "graves": [
+          "Motor averiado",
+          "Sistema de frenos defectuoso",
+          "Transmisión dañada",
+          "Fuga de aceite",
+          "Neumático desinflado",
+          "Problema en la dirección",
+          "Fallo en el sistema eléctrico",
+          "Suspensión dañada"
+        ]
+    },
+   
+    "rutas": {
+      "Coronado - TEC": [
+        "Ipís",
+        "Coronado Centro",
+        "Jardines",
+        "Alto de Guadalupe",
+        "UCR",
+        "Curridabat",
+        "Calle Vieja",
+        "Tres Ríos"
+        
+      ],
+      "Heredia - TEC": [
+        "Santa Lucía",
+        "Parque Alfredo Gonzáles Flores",
+        "Parque del Carmén",
+        "Paseo de las Flores",
+        "Los Lagos",
+        "Jardines del Recuerdo",
+        "Puent Juan Pablo II",
+        "Parque Central",
+        "San Pedro",
+        "La Galera"
+      ],
+      "Alajuela - TEC": [
+        "Parque Juan Santamaría",
+        "Radial",
+        "Firestone",
+        "Real Cariari",
+        "Hospital México",
+        "Corobicí",
+        "Paseo Colón",
+        "San José Centro",
+        "San Pedro"
+        
+      ]
+    }
+  }
