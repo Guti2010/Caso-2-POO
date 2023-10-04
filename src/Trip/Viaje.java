@@ -51,14 +51,14 @@ public class Viaje {
     	this.cantPasajeros=pasajeros;
     }
 
-    public void modificarHorarioSegunPresa(CantPresa cantPresa,BusStop pParada) {
-    	Horario.TiemposPresa(busStops, cantPresa, pParada);
+    public void modificarHorarioSegunPresa(int min, int max, BusStop pParada) {
+    	Horario.cambiarHora(busStops, min, max, pParada);
     	busStops = Horario.getHorario();
     }
 
-    public void modificarHorarioSegunDaño(BusReport pAveria,BusStop pParada) {
-    	Gravedad pTipo = pAveria.getTipoAveria();
-    	Horario.tiemposAveria(busStops, pTipo, pParada);
+    public void modificarHorarioSegunDaño(int min, int max,BusStop pParada) {
+    	
+    	Horario.cambiarHora(busStops, min, max, pParada);
     	busStops = Horario.getHorario();
     }
 

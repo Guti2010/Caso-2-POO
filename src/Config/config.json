@@ -5,9 +5,24 @@
     "cantPresa" : 2,
     "minPersonasEnParada" : 0, 
     "maxPersonasEnParada" : 10, 
+    "tiempo Min entre Parada": 5,
+    "tiempo Max entre Parada": 10,
     "capacidad Buses": 60,
     "probabilidad Averia Leve": 3.5,
     "probabilidad Averia Grave": 0.7,
+
+    "tiemposPresa":{
+        "nula":[0,0],
+        "baja":[5,10],
+        "moderada":[10,15],
+        "alta":[15,20]
+    },
+
+    "tiemposAveria":{
+        "leve":[5,10],
+        "grave":[25,40]
+    },
+
     "averias": {
         "leves": [
           "Pintura agrietada",

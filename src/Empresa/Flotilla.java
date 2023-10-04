@@ -1,6 +1,7 @@
 package Empresa;
 
-import java.util.ArrayList;   
+import java.util.ArrayList;
+import java.util.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class Flotilla {
     }
     
     // Método para crear BusStops 
-    public void crearBusStopsYHorario(String pUbicacion) {
+    public void crearBusStops(String pUbicacion) {
     	BusStop busStop = new BusStop();
     	busStop.setUbicacion(pUbicacion);
         busStops.add(busStop);
@@ -61,6 +62,14 @@ public class Flotilla {
         ruta.setBusStop(busStops);
         busStops.clear();// limpiar lista para la siguiente ruta
         rutas.add(ruta);
+    }
+    
+    public void crearBusReport(Time pHora,Date pFecha,boolean pEstado,String descripcion,Gravedad pTipo) {
+        BusReport averia = new BusReport();
+        averia.setHoraYFecha(pHora, pFecha);
+        averia.setEstado(pEstado);
+        averia.setDaño(descripcion);
+        averia.setTipoDaño(pTipo);
     }
     
 

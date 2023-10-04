@@ -1,16 +1,12 @@
 package Tiempo;
 
-import java.sql.Time; 
+import java.sql.Time;   
 import Route.*;
-import Trip.*;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Horario {
 	private List<BusStop> Paradas;
-	private int tiempoMin;
-	private int tiempoMax;
-	
 	
 	public static Time sumarMinutos(Time hora, int minutos) {
         long tiempoActual = hora.getTime();
@@ -22,7 +18,7 @@ public class Horario {
 	public void establecerHorario(List<BusStop> pBusStops, Time pHoraInicio, int pTiempoMin, int pTiempoMax){
 		
 		int numeroParadas = pBusStops.size();
-        int tiempoTotalDisponible = 50; // Suponiendo que hay 1 hora entre la primera y la última parada
+        int tiempoTotalDisponible = 80; // Suponiendo que hay 1:30  entre la primera y la última parada
         int i = 0;
         pBusStops.get(0).setHora(pHoraInicio);
         for (BusStop x: pBusStops) {
@@ -43,15 +39,7 @@ public class Horario {
 	
 	public void cambiarHora (List<BusStop> busStops, int pTiempoMin,int pTiempoMax, BusStop pParada){
 		int i = 0;
-    	int i2 = 0;
-    	
-		// Encontrar el índice de la parada específica pParada
-    	for (BusStop busStop: busStops) {
-    		if (busStop==pParada) {
-    			break;
-    		}
-    		i2++;
-    	}
+    	int i2 = busStops.indexOf(pParada);
     	
         for (BusStop busStop: busStops) {
         	if (i>i2) {
@@ -74,41 +62,6 @@ public class Horario {
 		
 		
         this.Paradas = busStops;
-	}
-	
-	public void TiemposPresa(List<BusStop> busStops, CantPresa cantPresa,BusStop pParada){
-		this.Paradas = busStops;
-    	if (cantPresa==CantPresa.Baja) {
-    		tiempoMin=5;
-    		tiempoMax=10;
-    		
-    	}
-    	if (cantPresa==CantPresa.Moderada) {
-    		tiempoMin=10;
-    		tiempoMax=15;
-    	}
-    	if (cantPresa==CantPresa.Alta) {
-    		tiempoMin=15;
-    		tiempoMax=20;
-    	}
-    	
-    	cambiarHora (busStops, tiempoMin, tiempoMax, pParada);
-	}
-	
-	public void tiemposAveria(List<BusStop> busStops, Gravedad pTipo,BusStop pParada){
-		this.Paradas = busStops;
-    	
-    	if (pTipo==Gravedad.LEVE) {
-    		tiempoMin=5;
-    		tiempoMax=10;
-    	}
-    	if (pTipo==Gravedad.GRAVE) {
-    		tiempoMin=25;
-    		tiempoMax=40;
-    	}
-    	
-    	cambiarHora (busStops, tiempoMin, tiempoMax, pParada);
-    	
 	}
 	
 	public List<BusStop> getHorario (){

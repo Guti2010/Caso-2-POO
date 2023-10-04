@@ -6,5 +6,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/windows/Documents/TransportePúblico/javax.json-1.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/windows/Documents/TransportePúblico/javax.json-api-1.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/windows/Documents/TransportePúblico/jackson-annotations-2.15.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/windows/Documents/TransportePúblico/jackson-core-2.15.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/windows/Documents/TransportePúblico/jackson-databind-2.15.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

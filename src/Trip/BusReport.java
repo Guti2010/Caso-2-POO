@@ -1,9 +1,9 @@
 package Trip;
 
 import java.util.Date;
-
+import java.sql.Time; 
 public class BusReport {
-    private Date hora;
+    private Time hora;
     private Gravedad TipoAveria;
     private String descripcion;
     private Date fechaAcontecimiento;
@@ -15,7 +15,7 @@ public class BusReport {
     }
 
     // Método para definir la hora del reporte
-    public void definirHoraYFecha(Date pHora,Date pFecha) {
+    public void setHoraYFecha(Time pHora,Date pFecha) {
         this.hora = pHora;
         this.fechaAcontecimiento = pFecha;
     }
@@ -27,17 +27,17 @@ public class BusReport {
     }
 
     // Método para definir el tipo de daño del autobús
-    public void definirTipoDaño(Gravedad pTipo) {
+    public void setTipoDaño(Gravedad pTipo) {
         this.TipoAveria = pTipo;
     }
 
     // Método para agregar una descripción al reporte
-    public void agregarDaño(String descripcion) {
+    public void setDaño(String descripcion) {
         this.descripcion = descripcion;
     }
 
     // Método para obtener la hora del reporte
-    public Date getHora() {
+    public Time getHora() {
         return hora;
     }
     

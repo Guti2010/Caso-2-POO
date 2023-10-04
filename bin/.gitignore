@@ -1,7 +1,8 @@
-/Autobus/
+/Config/
+/Main/
+/Bus/
 /Empresa/
 /GUI/
-/Horario/
 /Route/
+/Tiempo/
 /Trip/
-/Main/
