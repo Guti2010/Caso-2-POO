@@ -2,6 +2,7 @@
     "tiempoSimulacionHora": 20000, 
     "minHora" : 6,
     "maxHora" : 18,
+    "tiempo entre viajes" : 90,
     "cantPresa" : 2,
     "minPersonasEnParada" : 0, 
     "maxPersonasEnParada" : 10, 

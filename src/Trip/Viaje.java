@@ -32,8 +32,13 @@ public class Viaje {
     // Métodos para establecer atributos
     public void setRuta(Ruta ruta) {
         this.ruta = ruta;
-        this.busStops = ruta.getBusStops();
+         
     }
+    
+    public void setBusStops(List<BusStop> pBusStops) {
+    	this.busStops = pBusStops;
+    }
+    
     
 
     public void setAutobus(Autobus autobus) {
@@ -43,6 +48,19 @@ public class Viaje {
     public void setHorario(Time pHoraInicio, int pTiempoMin, int pTiempoMax) {
         this.horaInicio = pHoraInicio;
         Horario.establecerHorario(busStops, pHoraInicio, pTiempoMin, pTiempoMax);
+        busStops = Horario.getHorario();
+        
+    }
+    
+    public void setHorarioConPresa(int pTiempoMin, int pTiempoMax) {
+        Horario.cambiarHora(busStops, pTiempoMin, pTiempoMax, ubicacionBus);
+        
+        busStops = Horario.getHorario();
+        
+    }
+    public void setHorarioConAveria(int pTiempoMin, int pTiempoMax) {
+        Horario.cambiarHora(busStops, pTiempoMin, pTiempoMax, ubicacionBus);
+        
         busStops = Horario.getHorario();
         
     }

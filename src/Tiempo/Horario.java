@@ -1,12 +1,21 @@
 package Tiempo;
 
-import java.sql.Time;   
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+
 import Route.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Horario {
 	private List<BusStop> Paradas;
+	private List<Time> horasInicio;
+	
+	public Horario() {
+		horasInicio = new ArrayList<>();
+	}
 	
 	public static Time sumarMinutos(Time hora, int minutos) {
         long tiempoActual = hora.getTime();
@@ -64,8 +73,38 @@ public class Horario {
         this.Paradas = busStops;
 	}
 	
+	public void setHorasInicio(int horaInicio, int horaFin, int intervalo) {
+		
+		
+        if (horaInicio < 0 || horaFin > 24 || horaInicio >= horaFin) {
+            throw new IllegalArgumentException("Intervalo de tiempo no válido");
+        }
+
+        int minutos = 0;
+        for (int hora = horaInicio; hora <= horaFin; hora++) {
+            while (minutos < 60) {
+                String horaFormato24 = String.format("%02d:%02d:00", hora, minutos);
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                    java.util.Date date = sdf.parse(horaFormato24);
+                    horasInicio.add(new Time(date.getTime()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                minutos += intervalo; // Añadir 90 minutos (1.5 horas)
+            }
+            minutos -= 60;
+        }
+        
+        
+    }
+	
 	public List<BusStop> getHorario (){
 		return Paradas;
+	}
+	
+	public List<Time> getHorasServicio(){
+		return horasInicio;
 	}
 
 }

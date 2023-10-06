@@ -1,15 +1,16 @@
 package Route;
 
-import java.util.ArrayList;  
+import java.util.ArrayList;   
 import java.util.List; 
 import Trip.*;
-
+import java.sql.Time; 
 
 public class Ruta {
     private int idRuta;
     private String nombre;
     private List<BusStop> busStops;
     private List<Viaje> viajes;
+    private List<Time> horaServicio;
 
     // Constructor
     public Ruta() {
@@ -31,6 +32,10 @@ public class Ruta {
     public void setNombre(String pNameRuta) {
     	this.nombre = pNameRuta;
     }
+    
+    public void setHorasInicio(List<Time> pHoras) {
+    	this.horaServicio = pHoras;
+    }
 
     public int getIDruta() {
     	return idRuta;
@@ -47,6 +52,10 @@ public class Ruta {
     // Método para obtener la lista de viajes en la ruta
     public List<Viaje> getViajes() {
         return viajes;
+    }
+    
+    public List<Time> getHorasInicio() {
+    	return horaServicio;
     }
 
     
