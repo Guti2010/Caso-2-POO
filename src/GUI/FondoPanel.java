@@ -6,7 +6,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class FondoPanel extends JPanel {
-    private Image imagenFondo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Image imagenFondo;
 
     public FondoPanel(String pRuta) {
         // Carga la imagen de fondo (asegúrate de tener la imagen en tu proyecto)

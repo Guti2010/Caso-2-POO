@@ -1,10 +1,15 @@
 package Route;
 
+import java.io.Serializable;
 import java.sql.Time;
 
 
-public class BusStop {
-    private Time horaAproximada;
+public class BusStop implements Serializable  {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Time horaAproximada;
     private String ubicacion;
 
     // Constructor

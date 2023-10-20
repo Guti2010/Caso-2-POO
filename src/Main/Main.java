@@ -1,64 +1,54 @@
 package Main;
    
-import Trip.*;
+import Trip.*;      
 import java.sql.Time;
-
-import Bus.*;
 import Config.*;
 import Empresa.Flotilla;
-
-import Route.Ruta;
-
+import GUI.*;
+import Route.*;
+import java.util.List;
+import Bus.Autobus;
+import java.io.*;
+import Simulation.*;
 public class Main {
+	
 	public static void main(String[] args) {
 		getJSON JSON = new getJSON();
     	RutaJSON Rutas = JSON.getRutas();
     	settingJSON Configuracion = JSON.getSettings();
-        Flotilla Flotilla = new Flotilla();
-        Flotilla.agregarBus("Placa1", "Juan Pérez", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa2", "Antonio Rodríguez", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa3", "Carlos López", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa4", "Luis García", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa5", "Andrés Martínez", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa6", "Alejandro Fernández", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa7", "Sergio González", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa8", "Manuel Díaz", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa9", "Pedro Sánchez", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa10", "José Ramírez", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa11", "Mario Torres", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa12", "Rafael Ruiz", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa13", "Miguel Vargas", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa14", "Daniel Castro", Configuracion.getCantPersonas());
-        Flotilla.agregarBus("Placa15", "David Ortega", Configuracion.getCantPersonas());
-        
-        
+    	Flotilla Flotilla = new Flotilla();
+    	List <Autobus> Autobuses = null;
         
         Flotilla.agregarRutas(Rutas, Configuracion.getMinHoraServicio(),
         		Configuracion.getMaxHoraServicio(), Configuracion.getIntervalo());
         
-        
-        
         for(Ruta ruta:Flotilla.getRutas()) {
-        	System.out.println(ruta.getName());
-        	System.out.println(ruta.getIDruta());
-        	System.out.println(ruta.getHorasInicio());
         	for (Time hora : ruta.getHorasInicio()) {
-        		Flotilla.crearViaje(ruta, hora, Configuracion.getMinTiempoParadas(), Configuracion.getMaxTiempoParadas());
-        		
-        	}
-        	
-        	for(Viaje viaje :ruta.getViajes()) {
-        		Flotilla.asignarAutobus(viaje);
-        		
-        	}
-        
+        		List<BusStop> paradas = ruta.getBusStops();
+        		Flotilla.crearViaje(ruta,paradas,hora, Configuracion.getMinTiempoParadas(), Configuracion.getMaxTiempoParadas());
+        	}   
         }
-		
+        
+        // Cargar la Flotilla desde un archivo binario
+        try (FileInputStream fileInputStream = new FileInputStream("Autobuses.bin");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+        	Autobuses = (List<Autobus>) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        Flotilla.setAutobuses(Autobuses);
+           	
+        VentanaInicio ventanaInicio = new VentanaInicio(Configuracion, Autobuses);
+        ventanaInicio.setVisible(true);
+        ventanaInicio.setFlotilla(Flotilla);
+            
+        for(Ruta ruta:Flotilla.getRutas()) {
+        	ruta.setViajeActual(ruta.getViajes().get(0));
+        	for (Viaje viaje:ruta.getViajes()) {
+                ViajeSimulacion simulacionThread = new ViajeSimulacion(viaje,Flotilla,JSON);
+                simulacionThread.start();		
+        	}
+        } 
 	}
-	
-		
-		
-
-	
-
 }

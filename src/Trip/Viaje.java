@@ -1,14 +1,19 @@
 package Trip;
 
-import java.util.ArrayList;   
-import java.util.List; 
+import java.util.ArrayList;     
+import java.util.List;
+import java.io.Serializable;
 import java.sql.Time;  
 import Bus.*;
 import Route.*;
 import Tiempo.Horario;
 
-public class Viaje {
-    private Ruta ruta;
+public class Viaje implements Serializable  {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Ruta ruta;
     private Autobus autobus;
     private Time horaInicio;
     private int cantPasajeros;
@@ -36,7 +41,12 @@ public class Viaje {
     }
     
     public void setBusStops(List<BusStop> pBusStops) {
-    	this.busStops = pBusStops;
+    	for(BusStop parada: pBusStops) {
+    		BusStop parada2 = new BusStop();
+    		parada2.setUbicacion(parada.getUbicacion());
+    		this.busStops.add(parada2);
+    	}
+    
     }
     
     
@@ -48,7 +58,7 @@ public class Viaje {
     public void setHorario(Time pHoraInicio, int pTiempoMin, int pTiempoMax) {
         this.horaInicio = pHoraInicio;
         Horario.establecerHorario(busStops, pHoraInicio, pTiempoMin, pTiempoMax);
-        busStops = Horario.getHorario();
+        
         
     }
     
@@ -69,16 +79,6 @@ public class Viaje {
     	this.cantPasajeros=pasajeros;
     }
 
-    public void modificarHorarioSegunPresa(int min, int max, BusStop pParada) {
-    	Horario.cambiarHora(busStops, min, max, pParada);
-    	busStops = Horario.getHorario();
-    }
-
-    public void modificarHorarioSegunDaño(int min, int max,BusStop pParada) {
-    	
-    	Horario.cambiarHora(busStops, min, max, pParada);
-    	busStops = Horario.getHorario();
-    }
 
     public void averiarBus(BusReport pBusReport) {
     	EstadoBus = false; //Bus dañado
@@ -96,9 +96,10 @@ public class Viaje {
     
     }
 
-    public void modificarUbicacionBus(BusStop ubicacionBus) {
+    public void setUbicacionBus(BusStop ubicacionBus) {
         this.ubicacionBus = ubicacionBus;
     }
+    
 
     public void aumentarPasajeros(int cantPersonas) {
     	if (autobus.getCapacidadMaxima()>cantPasajeros) {

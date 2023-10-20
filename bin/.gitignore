@@ -1,7 +1,8 @@
 /Main/
-/Route/
+/Simulation/
+/GUI/
 /Config/
 /Empresa/
-/Tiempo/
-/Bus/
 /Trip/
+/Bus/
+/Route/

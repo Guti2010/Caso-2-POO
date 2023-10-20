@@ -3,14 +3,14 @@
     "minHora" : 6,
     "maxHora" : 18,
     "tiempo entre viajes" : 90,
-    "cantPresa" : 2,
+    "cantPresa" : 3,
     "minPersonasEnParada" : 0, 
     "maxPersonasEnParada" : 10, 
     "tiempo Min entre Parada": 5,
     "tiempo Max entre Parada": 10,
     "capacidad Buses": 60,
-    "probabilidad Averia Leve": 3.5,
-    "probabilidad Averia Grave": 0.7,
+    "probabilidad Averia Leve": 25,
+    "probabilidad Averia Grave": 5,
 
     "tiemposPresa":{
         "nula":[0,0],
@@ -68,7 +68,6 @@
         "Jardines del Recuerdo",
         "Puent Juan Pablo II",
         "Parque Central",
-        "San Pedro",
         "La Galera"
       ],
       "Alajuela - TEC": [

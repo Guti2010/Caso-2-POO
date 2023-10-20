@@ -1,13 +1,20 @@
 package Route;
 
-import java.util.ArrayList;   
+import java.util.ArrayList;    
 import java.util.List; 
 import Trip.*;
+
+import java.io.Serializable;
 import java.sql.Time; 
 
-public class Ruta {
-    private int idRuta;
+public class Ruta implements Serializable  {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int idRuta;
     private String nombre;
+    private Viaje viajeActual;
     private List<BusStop> busStops;
     private List<Viaje> viajes;
     private List<Time> horaServicio;
@@ -20,6 +27,14 @@ public class Ruta {
     }
     public void setBusStop(List<BusStop> pParadas) {
     	this.busStops=pParadas;
+    }
+    
+    public void setViajeActual(Viaje pViaje) {
+    	this.viajeActual = pViaje;
+    }
+    
+    public Viaje getViajeActual() {
+    	return viajeActual;
     }
     
     public void agregarViajes(Viaje pViaje) {
@@ -57,6 +72,10 @@ public class Ruta {
     public List<Time> getHorasInicio() {
     	return horaServicio;
     }
+    
+    public int getID() {
+    	return idRuta;
+    } 
 
     
 }

@@ -1,7 +1,6 @@
 package Empresa;
 
-import java.util.ArrayList; 
-import java.util.Date;
+import java.util.ArrayList;          
 import java.util.Iterator;
 import java.sql.Time;
 import java.util.List;
@@ -12,20 +11,29 @@ import Bus.*;
 import Trip.*;
 import Route.*;
 import Tiempo.Horario;
-
-public class Flotilla {
-    private List<Autobus> autobuses;
+import java.io.Serializable;
+public class Flotilla implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1442488656288151532L;
+	private List<Autobus> autobuses;
     private List<Ruta> rutas;
-    private List<BusStop> busStops;
     private Horario tiempos;
     
 
     // Constructor
     public Flotilla() {
         autobuses = new ArrayList<>();
-        rutas = new ArrayList<>();
-        
-        
+        rutas = new ArrayList<>();    
+    }
+    
+    public void setAutobuses(List<Autobus> pAutobuses) {
+    	this.autobuses = pAutobuses;
+    }
+    
+    public void setRutas(List<Ruta> pRutas) {
+    	this.rutas = pRutas;
     }
     
  // Método para agregar un nuevo autobús a la flotilla
@@ -38,67 +46,47 @@ public class Flotilla {
         autobuses.add(autobus);
     }
     
-    public void seleccionarBus(List<Autobus> Autobuses, Viaje viaje) {
-    	
-    	for (Autobus Bus : Autobuses){
+    
+    public void seleccionarBus(Viaje viaje) {
+   
+    	for (Autobus Bus : autobuses){
     		if (Bus.getUltimoViaje()==null) {
     			viaje.setAutobus(Bus);
-    			
-    			System.out.println(Bus.getPlaca()+" primer if");
-    			break;
+    			Bus.setUltimoViaje(viaje);
+    			return;
     		}
     		else {
-	    		//Si el bus está disponible y su ultimo BusReport fue reparado, puede asignarse a otro viaje
-	    		if(Bus.getDisponibilidad()==true 
-	    				& Bus.getUltimoViaje().getRuta()!=viaje.getRuta()){
-	    			viaje.setAutobus(Bus);
-    				System.out.println(Bus.getPlaca());
-    				break;
-	    			
-	    		}
-	    		else {
-	    			if (Bus.getUltimoViaje().getRuta()==viaje.getRuta()&
-		    				(viaje.getRuta().getViajes().indexOf(viaje)-
-		    				Bus.getUltimoViaje().getRuta().getViajes().indexOf(Bus.getUltimoViaje()))>=2) {
-		    				viaje.setAutobus(Bus);
-		    				System.out.println(Bus.getPlaca());
-		    				break;
-		    			}
-	    		}
-	    		if (Bus.getBusReports()==null) {
-	    			viaje.setAutobus(Bus);
-	    			System.out.println(Bus.getPlaca());
-	    			break;
-	    		}
-	    		//else {
-	    			//if (Bus.getBusReports().get(Bus.getBusReports.size()-1).getEstado()==true) {
-	    			//	viaje.setAutobus(Bus);
-	    		//		System.out.println(Bus.getPlaca());
-	        	//		break;
-	    		//	}
-	    		//}
+    			long diferenciaMillis = viaje.getHoraInicio().getTime() - 
+    					Bus.getUltimoViaje().getHoraInicio().getTime();
+    			double diferenciaHoras = (double) diferenciaMillis / 3600000;
+    	        // Convierte la diferencia a horas dividiendo entre 3600000 (milisegundos en una hora)
+    	        
+    	        
+    			if (diferenciaHoras >= 3.0 & Bus.getDisponibilidad()==true & viaje.getRuta()!=
+    					Bus.getUltimoViaje().getRuta()) {
+    				viaje.setAutobus(Bus);
+    				Bus.setUltimoViaje(viaje);
+    				return;
+    			}
     		}	
     	}
     }
 
     // Método para crear un nuevo viaje
-    public void crearViaje(Ruta ruta, Time horaInicio,int tiempoMin, int tiempoMax) {
+    public void crearViaje(Ruta ruta,List<BusStop> paradas, Time horaInicio,int tiempoMin, int tiempoMax) {
     	
         Viaje viaje = new Viaje();
         viaje.setCantPasajeros(0);
         viaje.setRuta(ruta);
-        viaje.setBusStops(ruta.getBusStops());
+        viaje.setBusStops(paradas);
+        viaje.setUbicacionBus(paradas.get(0));
         viaje.setEstadoBus(true);
         viaje.setHorario(horaInicio, tiempoMin, tiempoMax);
         ruta.agregarViajes(viaje);
-        ;
+        
     }
     
-    public void asignarAutobus(Viaje viaje) {
-    	seleccionarBus(autobuses,viaje);
-    	viaje.getAutobus().setUltimoViaje(viaje);
-    	
-    }
+    
     
     // Método para crear BusStops 
     public void crearBusStops(String pUbicacion, List<BusStop> busStops) {
@@ -124,7 +112,7 @@ public class Flotilla {
             ruta.setIDruta(i);
             JsonArray jsonArray = (JsonArray) value;
             // Itera a través de los elementos del arreglo
-            busStops = new ArrayList<>();
+            List <BusStop >busStops = new ArrayList<>();
             for (JsonValue jsonValue : jsonArray) {
             	crearBusStops(jsonValue.toString(),busStops);
             }
@@ -136,36 +124,21 @@ public class Flotilla {
         
     }
      
-    public void crearBusReport(Time pHora,Date pFecha,boolean pEstado,String descripcion,Gravedad pTipo) {
-        BusReport averia = new BusReport();
-        averia.setHoraYFecha(pHora, pFecha);
-        averia.setEstado(pEstado);
-        averia.setDaño(descripcion);
-        averia.setTipoDaño(pTipo);
-    }
-    
-
-    // Método para reparar un autobús
-    public void repararBus(Viaje viaje) {
-        viaje.repararBus(true);
-        
-    }
-
-
     // Método para dañar un autobús y registrar un informe
     public void dañarAutobus(Viaje viaje, BusReport busReport,int min, int max) {
         viaje.averiarBus(busReport);
-        viaje.setHorarioConPresa(min, max);
+        viaje.setHorarioConAveria(min, max);
+        
     }
     
  // Método para dañar un autobús y registrar un informe
     public void atrasarAutobus(Viaje viaje,int min, int max) {
-        viaje.setHorarioConAveria(min, max);
+    	viaje.setHorarioConPresa(min, max);
     }
 
     // Método para actualizar la ubicación de un autobús en un viaje
     public void actualizarUbicacionAutobus(Viaje viaje, BusStop pParadaActual) {
-        viaje.modificarUbicacionBus(pParadaActual);
+        viaje.setUbicacionBus(pParadaActual);
         
     }
     

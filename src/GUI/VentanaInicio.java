@@ -1,16 +1,26 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.*;
 
+import Bus.Autobus;
+import Config.settingJSON;
+import java.io.*;
+import java.awt.*;
+import java.util.List;
+import Empresa.*;
 
 public class VentanaInicio extends JFrame {
-    private JTextArea textArea;
-    private SolicitarInformacion ventana1;
-    private ControlFlotilla ventana2;
-    
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected Flotilla Flotilla;
+	private settingJSON configuracion;
+	private List <Autobus> Autobuses;
 
-    public VentanaInicio() {
+    public VentanaInicio(settingJSON configuracion,List <Autobus> pAutobuses) {
+    	this.configuracion = configuracion;
+    	this.Autobuses = pAutobuses;
         setTitle("Ventana de Inicio");
         setSize(550, 600);
         setResizable(false);
@@ -29,29 +39,62 @@ public class VentanaInicio extends JFrame {
         getContentPane().add(label);
 
         // Botón "Control de Flotilla"
-        JButton button1 = new JButton("Control de Flotilla");
-        button1.setBounds(60, 230, 220, 50); // Aumenta el tamaño del botón
+        JButton button1 = new JButton("Agregar Autobuses");
+        button1.setBounds(160, 130, 220, 50); // Aumenta el tamaño del botón
         personalizarBoton(button1, new Font("Arial", Font.PLAIN, 20), new Color(50, 120, 220));
 
         
-        
-        JButton button2 = new JButton("Información de rutas");
-        button2.setBounds(280, 230, 220, 50); // Aumenta el tamaño del botón
+        JButton button2 = new JButton("Control Autobuses");
+        button2.setBounds(160, 230, 220, 50); // Aumenta el tamaño del botón
         personalizarBoton(button2, new Font("Arial", Font.PLAIN, 20), new Color(240, 120, 40));
-
+        
+        JButton button3 = new JButton("Informacion Proximo Autobus");
+        button3.setBounds(110, 330, 300, 50);
+        personalizarBoton(button3, new Font("Arial", Font.PLAIN, 20), new Color(70, 0, 50)); // Puedes personalizar el color
+        
+        JButton button4 = new JButton("Guardar Datos");
+        button4.setBounds(160, 430, 220, 50);
+        personalizarBoton(button4, new Font("Arial", Font.PLAIN, 20), new Color(100, 20, 100)); // Puedes personalizar el color
+        
         button1.addActionListener(e -> {
-        	ControlFlotilla ventana2 = new ControlFlotilla();
-        	ventana2.setVisible(true);
+        	AgregarBus ventana1 = new AgregarBus(Flotilla,configuracion);
+        	ventana1.setVisible(true);
+        	
         });
         
         button2.addActionListener(e -> {
-        	SolicitarInformacion ventana1 = new SolicitarInformacion();
-        	ventana1.setVisible(true);
+        	ControlFlotilla ventana2 = new ControlFlotilla(Flotilla.getBuses());
+        	ventana2.setVisible(true);
+        	
+        	
+        });
+        
+        button3.addActionListener(e -> {
+        	SolicitarInformacion ventana3 = new SolicitarInformacion(Flotilla.getRutas());
+        	ventana3.setVisible(true);
+        	
+        });
+        
+        button4.addActionListener(e -> {
+        	// Guardar los Autobuses en un archivo binario
+        	for(Autobus bus: Autobuses) {
+        		bus.setUltimoViaje(null);
+        	}
+            try (FileOutputStream fileOutputStream = new FileOutputStream("Autobuses.bin");
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+                objectOutputStream.writeObject(Autobuses);
+            } catch (IOException x) {
+                x.printStackTrace();
+            }
         	
         });
         getContentPane().add(button1);
 
         getContentPane().add(button2);
+        
+        getContentPane().add(button3);
+        
+        getContentPane().add(button4);
     }
 
     // Método para personalizar un botón con un color de fondo
@@ -62,17 +105,12 @@ public class VentanaInicio extends JFrame {
         button.setFocusPainted(false);
         button.setBorderPainted(false);
     }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-           
-            public void run() {
-                VentanaInicio ventanaInicio = new VentanaInicio();
-                ventanaInicio.setVisible(true);
-            }
-        });
+    
+    public void setFlotilla(Flotilla pFlotilla) {
+    	this.Flotilla = pFlotilla;
     }
+
+
     
 }
 

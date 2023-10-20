@@ -1,5 +1,6 @@
 package Tiempo;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
@@ -9,7 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Horario {
+public class Horario implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<BusStop> Paradas;
 	private List<Time> horasInicio;
 	
@@ -30,8 +35,9 @@ public class Horario {
         int tiempoTotalDisponible = 80; // Suponiendo que hay 1:30  entre la primera y la última parada
         int i = 0;
         pBusStops.get(0).setHora(pHoraInicio);
-        for (BusStop x: pBusStops) {
-        	if (i>0) {
+        for (int j = 0; j < pBusStops.size(); j++) {
+			
+			if (i>0) {
 	        	// Calcula el tiempo aleatorio basado en la proporción del tiempo total disponible
 	            int tiempoAleatorio = (int) Math.round((double)i / numeroParadas * tiempoTotalDisponible);
 	            tiempoAleatorio = ThreadLocalRandom.current().nextInt(pTiempoMin, pTiempoMax + 1);
@@ -40,7 +46,7 @@ public class Horario {
 	            pBusStops.get(i).setHora(sumarMinutos(pBusStops.get(i - 1).getHoraAproximada(), tiempoAleatorio));    
         	}
         	i++;
-        }
+		}
         this.Paradas = pBusStops;
         
        
@@ -50,8 +56,9 @@ public class Horario {
 		int i = 0;
     	int i2 = busStops.indexOf(pParada);
     	
-        for (BusStop busStop: busStops) {
-        	if (i>i2) {
+        for (int j = 0; j < busStops.size(); j++) {
+			
+			if (i>i2) {
         		int tiempoAleatorio = ThreadLocalRandom.current().nextInt(pTiempoMin, pTiempoMax + 1);
         		Time horaParadaAnterior = busStops.get(i - 1).getHoraAproximada();
                 Time horaParadaActual = busStops.get(i).getHoraAproximada();
@@ -67,7 +74,7 @@ public class Horario {
                 busStops.get(i).setHora(nuevaHora);    
         	}
         	i++;
-        }
+		}
 		
 		
         this.Paradas = busStops;

@@ -11,8 +11,8 @@ public class settingJSON {
     private int minTiempoParadas;
     private int maxTiempoParadas;
     private int capacidadPersonas;
-    private float posibilidadAveriaLeve;
-    private float posibilidadAveriaGrave;
+    private int posibilidadAveriaLeve;
+    private int posibilidadAveriaGrave;
     
     public settingJSON() {
     	
@@ -107,19 +107,19 @@ public class settingJSON {
         return capacidadPersonas;
     }
     
-    public void setAveriaLeve(float averiaLeve) {
+    public void setAveriaLeve(int averiaLeve) {
         this.posibilidadAveriaLeve = averiaLeve;
     }
 
-    public float getAveriaLeve() {
+    public int getAveriaLeve() {
         return posibilidadAveriaLeve;
     }
     
-    public void setAveriaGrave(float averiaGrave) {
+    public void setAveriaGrave(int averiaGrave) {
         this.posibilidadAveriaGrave = averiaGrave;
     }
 
-    public float getAveriaGrave() {
+    public int getAveriaGrave() {
         return posibilidadAveriaGrave;
     }
     

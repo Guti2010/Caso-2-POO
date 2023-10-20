@@ -1,12 +1,18 @@
 package Bus;
 
+import java.io.Serializable; 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import Trip.*;
  
 import java.util.List; 
-
-public class Autobus {
+ 
+public class Autobus implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String placa;
     private String nombreConductor;
     private int capacidadMaxima;
@@ -29,6 +35,11 @@ public class Autobus {
         this.nombreConductor = pNombreConductor;
     }
     
+    public void setAverias(List<BusReport> pAverias) {
+        this.busReports = pAverias;
+    }
+    
+    
     // Método para definir el último viaje del autubus
     public void setUltimoViaje(Viaje pViaje) {
         this.ultimoViaje =pViaje;
@@ -37,6 +48,7 @@ public class Autobus {
     // Método para agregar reportes de daños que ha tenido el autobús
     public void agregarBusReport(BusReport pAveria) {
     	busReports.add(pAveria);
+    	busReports.sort(Comparator.comparing(BusReport::getFecha));
     }
     
     public void setDisponibilidad(boolean pDispo) {

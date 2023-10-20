@@ -50,8 +50,8 @@ public class getJSON {
         Configuraciones.setMinTiempoParadas(jsonparser.getInt("tiempo Min entre Parada"));
         Configuraciones.setMaxTiempoParadas(jsonparser.getInt("tiempo Max entre Parada"));
         Configuraciones.setCantPersonas(jsonparser.getInt("capacidad Buses"));
-        Configuraciones.setAveriaLeve((float) jsonparser.getJsonNumber("probabilidad Averia Leve").doubleValue());  
-        Configuraciones.setAveriaGrave((float) jsonparser.getJsonNumber("probabilidad Averia Grave").doubleValue()); 
+        Configuraciones.setAveriaLeve(jsonparser.getInt("probabilidad Averia Leve"));  
+        Configuraciones.setAveriaGrave(jsonparser.getInt("probabilidad Averia Grave")); 
         Configuraciones.setIntervalo(jsonparser.getInt("tiempo entre viajes"));
     }
     public void averias() {

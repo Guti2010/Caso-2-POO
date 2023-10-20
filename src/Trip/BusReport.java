@@ -1,12 +1,19 @@
 package Trip;
 
-import java.util.Date;
-import java.sql.Time; 
-public class BusReport {
-    private Time hora;
+import java.util.Date; 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.LocalDateTime;
+public class BusReport implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
     private Gravedad TipoAveria;
     private String descripcion;
-    private Date fechaAcontecimiento;
+    private LocalDateTime fechaAcontecimiento;
     private boolean Reparado;
 
     // Constructor
@@ -15,8 +22,8 @@ public class BusReport {
     }
 
     // Método para definir la hora del reporte
-    public void setHoraYFecha(Time pHora,Date pFecha) {
-        this.hora = pHora;
+    public void setFecha(LocalDateTime pFecha) {
+        
         this.fechaAcontecimiento = pFecha;
     }
     
@@ -36,12 +43,9 @@ public class BusReport {
         this.descripcion = descripcion;
     }
 
-    // Método para obtener la hora del reporte
-    public Time getHora() {
-        return hora;
-    }
     
-    public Date getFecha() {
+    
+    public LocalDateTime getFecha() {
         return fechaAcontecimiento;
     }
 
