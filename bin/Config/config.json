@@ -1,5 +1,5 @@
 {
-    "tiempoSimulacionHora": 20000, 
+    "tiempoSimulacionHora": 300, 
     "minHora" : 6,
     "maxHora" : 18,
     "tiempo entre viajes" : 90,

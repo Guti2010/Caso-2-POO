@@ -49,7 +49,7 @@ public class ViajeSimulacion extends Thread {
             BusStop busStop = busStops.get(busStopIndex);
             LocalTime horaParada = LocalTime.parse(busStop.getHoraAproximada().toString());
             
-            if (horaActual.isAfter(horaParada) || horaActual.equals(horaParada)) {
+            if (horaActual.isAfter(horaParada)) {
             	if (busStopIndex==0) {
             		flotilla.seleccionarBus(viaje);
             		System.out.println(viaje.getAutobus().getPlaca());
@@ -105,7 +105,7 @@ public class ViajeSimulacion extends Thread {
             }
 
             
-            horaActual = horaActual.plus(300, ChronoUnit.SECONDS); // Incrementar en 1 segundo
+            horaActual = horaActual.plus(configuracion.getTimeSimulation(), ChronoUnit.SECONDS); // Incrementar en 1 segundo
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -131,9 +131,10 @@ public class ViajeSimulacion extends Thread {
         
         // Generar un número aleatorio entre 0 y 100
         int probabilidad = random.nextInt(101);
+        System.out.println("Probabilidad de que ocurra:" +probabilidad);
         String descripcion = "";
-        // Si la probabilidad está en el rango del 0 al 36 (37%), se crea un BusReport
-        if (probabilidad <= configuracion.getAveriaLeve()) {
+        // Si la probabilidad está en el rango del 0 al numero que se indica se crea
+        if (probabilidad <= configuracion.getAveriaLeve() & cantAverias<1) {
         	tipoAveria = Gravedad.LEVE;
         	JsonArray descripcionesLeves = averias.getLeves();
             descripcion = descripcionesLeves.getString(new Random().nextInt(descripcionesLeves.size()));
@@ -147,7 +148,7 @@ public class ViajeSimulacion extends Thread {
             cantAverias++;
             return busReport;
         }
-        if (probabilidad <= configuracion.getAveriaGrave()) {
+        if (probabilidad <= configuracion.getAveriaGrave() & cantAverias<1) {
         	JsonArray descripcionesGraves = averias.getGraves();
             descripcion = descripcionesGraves.getString(new Random().nextInt(descripcionesGraves.size()));
             boolean reparado = false;

@@ -134,6 +134,8 @@ public class SolicitarInformacion extends JFrame {
     	}
     	
     	if (paradaViaje>=paradaParaConsultar) {
+    		
+    		
     		mensaje = "El autobus ya pasó por " + parada.getUbicacion() + 
     				", deberá esperar al proximo viaje";
     	}

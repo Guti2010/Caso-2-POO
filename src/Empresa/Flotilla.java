@@ -61,8 +61,7 @@ public class Flotilla implements Serializable {
     			double diferenciaHoras = (double) diferenciaMillis / 3600000;
     	        // Convierte la diferencia a horas dividiendo entre 3600000 (milisegundos en una hora)
     	        
-    	        
-    			if (diferenciaHoras >= 3.0 & Bus.getDisponibilidad()==true & viaje.getRuta()!=
+    			if (Bus.getDisponibilidad()==true & diferenciaHoras >= 3.0 & viaje.getRuta()!=
     					Bus.getUltimoViaje().getRuta()) {
     				viaje.setAutobus(Bus);
     				Bus.setUltimoViaje(viaje);
